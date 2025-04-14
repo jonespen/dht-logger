@@ -30,15 +30,15 @@
 //
 // Includes
 //
-#include <PietteTech_DHT.h>
+#include "PietteTech_DHT.h"
 
 //
 // Configuration
 //
 
 // device name
-#define DEVICE_NAME "your_device_name"
-#define FRIENDLY_NAME "Your Device Name"
+#define DEVICE_NAME "weatherstation9000"
+#define FRIENDLY_NAME "Weatherstation 9000"
 
 // sensor type: [DHT11, DHT22, DHT21, AM2301]
 #define DHT_TYPE AM2302
@@ -61,7 +61,7 @@
 #define LED_PIN D7
 
 // whether to use Farenheit instead of Celsius
-#define USE_FARENHEIT 1
+#define USE_FARENHEIT 0
 
 // min/max values (sanity checks)
 #define MIN_TEMPERATURE -30
@@ -71,7 +71,7 @@
 #define MAX_HUMIDITY 100
 
 // sensor check interval (seconds)
-#define CHECK_INTERVAL 60
+#define CHECK_INTERVAL 900
 
 // AdaFruit integration
 #define ADAFRUIT_ENABLED 0
@@ -92,11 +92,11 @@
 #define HTTP_POST_PATH "/"
 
 // Particle event
-#define PARTICLE_EVENT 0
+#define PARTICLE_EVENT 1
 #define PARTICLE_EVENT_NAME "dht-logger-log"
 
 // MQTT server
-#define MQTT_ENABLED 1
+#define MQTT_ENABLED 0
 #define MQTT_SERVER "192.168.0.150"
 #define MQTT_PORT 1883
 #define MQTT_TOPIC "particle"
