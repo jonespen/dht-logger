@@ -202,6 +202,7 @@ char mqttDevice[1024];
 //
 void checkDHT();
 void checkWaterAlarm();
+int triggerReading(String command);
 
 //
 // Functions
@@ -277,6 +278,9 @@ void setup() {
     // LED low once done
     digitalWrite(LED_PIN, LOW);
 
+    // Register the function to trigger a reading
+    Particle.function("triggerReading", triggerReading);
+
     // run the first measurement
     loop();
 }
@@ -304,7 +308,7 @@ void loop() {
 
             // MQTT discovery payloads
             sprintf(mqttPayload,
-                    "{\"unique_id\":\"%s_temperature\",\"device_class\":\"temperature\",\"name\":\"%s Temperature\",\"state_topic\":\"%s/%s/state\",\"json_attributes_topic\":\"%s/%s/state\",\"unit_of_measurement\":\"°%s\",\"value_template\":\"{{ value_json.temperature }}\",%s}",
+                    "{\"unique_id\":\"%s_temperature\",\"device_class\":\"temperature\",\"name\":\"%s Temperature\",\"state_topic\":\"%s/%s/state\",\"json_attributes_topic\":\"%s/%s/state\",\"unit_of_measurement\":\"âˆž%s\",\"value_template\":\"{{ value_json.temperature }}\",%s}",
                     DEVICE_NAME,
                     FRIENDLY_NAME,
                     MQTT_TOPIC,
@@ -559,3 +563,15 @@ void mqttSend(char* topic, char* payload) {
     mqttClient.publish(topic, payload, true);
 }
 #endif
+
+/**
+ * Function to trigger an immediate sensor reading
+ * Returns 1 if successful, 0 if failed
+ */
+int triggerReading(String command) {
+    checkWaterAlarm();
+    checkDHT();
+    
+    // Return success if the last reading didn't fail
+    return failed == 0 ? 1 : 0;
+}
